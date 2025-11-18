@@ -18,13 +18,17 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 
-# Configure CORS
+# Configure CORS - Allow all Vercel preview deployments and production domains
 CORS(app, origins=[
     'http://localhost:3000',
     'http://localhost:3002',
+    'http://localhost:5173',
     'https://school.unicard-serverless.com',
-    'https://admin.unicard-serverless.com'
-])
+    'https://admin.unicard-serverless.com',
+    'https://unicraftadmin.vercel.app',
+    'https://unicard-serverless-h8yr.vercel.app',
+    'https://unicraftsolutions.vercel.app',
+], supports_credentials=True)
 
 # Configuration
 PORT = int(os.getenv('PORT', 5000))
@@ -163,6 +167,6 @@ def internal_error(error):
 
 if __name__ == '__main__':
     print(f'🚀 Background Removal Service starting on port {PORT}')
-    print(f'📍 Health check: http://localhost:{PORT}/health')
-    print(f'📍 Remove background: http://localhost:{PORT}/remove-background')
-    app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
+    print(f'📍 Health check: http://0.0.0.0:{PORT}/health')
+    print(f'📍 Remove background: http://0.0.0.0:{PORT}/remove-background')
+    app.run(host='0.0.0.0', port=PORT, debug=DEBUG, threaded=True)
